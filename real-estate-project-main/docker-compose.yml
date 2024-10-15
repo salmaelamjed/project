@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    image: node:20
+    container_name: api
+    working_dir: /app
+    ports:
+      - '3000:3000'
+    command: npm run dev
+    volumes:
+      - "./api/:/app"
+    depends_on:
+      - mongo
+
+  web:
+    image: node:20
+    container_name: web
+    working_dir: /app
+    ports:
+      - '5173:5173'
+    command: npm run dev
+    volumes:
+      - "./client/:/app"
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: amjad
+      MONGO_INITDB_ROOT_PASSWORD: amjad
+    volumes:
+      - db-data:/data/db
+volumes:
+  db-data:{}
+    
